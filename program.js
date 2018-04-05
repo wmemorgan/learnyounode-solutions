@@ -1,15 +1,19 @@
-// Solution based on article by Daniel Paul Grech Pereira
-// https://medium.com/coding-and-web-development/learnyounode-exercise-3-2aa8d6aba68a
-var fs = require("fs");
-var filePath = process.argv[2];
-// console.log(filePath);
-var output = fs.readFileSync(filePath);
-output = output.toString().split("\n");
-console.log(output.length-1);
+//Exercise 4: My First Async I/O!
 
-//Official Solution
-var fs = require('fs')
+var fs = require('fs'),
+    filePath = process.argv[2],
+    lines = undefined;
 
-var contents = fs.readFileSync(process.argv[2])
-var lines = contents.toString().split('\n').length - 1
-console.log(lines)
+function getFile(callback) {
+    fs.readFile(filePath, function doneReading(err, data) {
+        if (err) throw err;
+        lines = data.toString().split('\n').length - 1;
+        callback();
+    })
+}
+
+function contentLength() {
+    console.log(lines);
+}
+
+getFile(contentLength);
