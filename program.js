@@ -1,18 +1,18 @@
 //Exercise 4: My First Async I/O!
 
-var fs = require('fs'),
-    filePath = process.argv[2],
-    lines = undefined;
+const fs = require('fs'),
+    filePath = process.argv[2];
+let lines = undefined;
 
-function getFile(callback) {
-    fs.readFile(filePath, function doneReading(err, data) {
+const getFile = (callback) => {
+    fs.readFile(filePath, (err, data) => {
         if (err) throw err;
         lines = data.toString().split('\n').length - 1;
         callback();
     })
 }
 
-function contentLength() {
+const contentLength = () => {
     console.log(lines);
 }
 
