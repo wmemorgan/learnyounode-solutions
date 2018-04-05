@@ -1,5 +1,5 @@
 //Exercise 4: My First Async I/O!
-
+//ES6 Format
 const fs = require('fs'),
     filePath = process.argv[2];
 let lines = undefined;
