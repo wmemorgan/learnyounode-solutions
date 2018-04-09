@@ -1,19 +1,16 @@
-//Exercise 4: My First Async I/O!
-//ES6 Format
-const fs = require('fs'),
-    filePath = process.argv[2];
-let lines = undefined;
+//Exercise 5: Filtered LS
 
-const getFile = (callback) => {
-    fs.readFile(filePath, (err, data) => {
-        if (err) throw err;
-        lines = data.toString().split('\n').length - 1;
-        callback();
-    })
-}
+var fs = require('fs'),
+    path = require('path'),
+    filePath = process.argv[2],
+    fileExt = process.argv[3];
 
-const contentLength = () => {
-    console.log(lines);
-}
-
-getFile(contentLength);
+fs.readdir(filePath, function(err, items) {
+    for (var i=0; i<items.length; i++) {
+        var ext = path.extname(items[i]);
+        if (path.extname(items[i]) === "." + fileExt) {
+            console.log(items[i]);
+        }
+    }
+});
+ 
