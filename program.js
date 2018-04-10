@@ -1,16 +1,30 @@
-//Exercise 6: Make It Modular
+//Exercise 7: HTTP Client
 
-const listfiles = require('./listfiles'),
-    filePath = process.argv[2],
-    fileExt = process.argv[3];
+const http = require('http');
+let url = process.argv[2];
+// console.log("URL is:", url);
+// for (let i = 0; i < process.argv.length; i++) {
+//     console.log(i, process.argv[i]);
+// }
 
-const callback = (err, items) => {
-    if (err) {
-        return console.error("Error is:", err);
-    } else {
-        items.forEach(item => console.log(item));
-    }
+http.get(url, (res) => {
+    const { statusCode } = res;
+    // const contentType = res.headers['content-type'];
+    // console.log("Got response: " + statusCode);
+    // res.setEncoding('utf8');
+    let rawData = '';
+    res.on('data', (data) => { 
+        // rawData += data;
+        console.log(String(data));
+        
+    });
+    // res.on('end', () => {
+    //     // const parsedData = JSON.parse(rawData);
+    //     // console.log(parsedData);
+    //     console.log(typeof rawData);
+    //     console.log(rawData);
+    // })
     
-}
-
-listfiles(filePath, fileExt, callback);
+}).on('error', (e) => {
+    console.log("Got error: " + e.message);
+});
