@@ -1,16 +1,16 @@
-//Exercise 5: Filtered LS
-//ES6 format
-const fs = require('fs'),
-    path = require('path');
-    
-let filePath = process.argv[2],
+//Exercise 6: Make It Modular
+
+const listfiles = require('./listfiles'),
+    filePath = process.argv[2],
     fileExt = process.argv[3];
 
-fs.readdir(filePath, (err, items) => {
-    items.forEach((item) => {
-        if(path.extname(item) === '.' + fileExt) {
-            console.log(item);
-        }
-    })
-});
- 
+const callback = (err, items) => {
+    if (err) {
+        return console.error("Error is:", err);
+    } else {
+        items.forEach(item => console.log(item));
+    }
+    
+}
+
+listfiles(filePath, fileExt, callback);
