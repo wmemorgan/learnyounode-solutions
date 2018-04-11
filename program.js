@@ -1,27 +1,13 @@
-//Exercise 10: Time Server
-//My Solution #2 (adapted from Official Solution)
+//Exercise 11: HTTP File Server
+//based on tutorial from Daniel Paul Grech Pereira
 
-const net = require('net');
+const http = require('http'),
+ fs = require('fs');
 
-const fillZero = (num) => { return (num < 10 ? '0' : '') + num }
-
-const getDate = () => {
-    let date = new Date();
-    console.log((date.getMonth()+1));
-
-    return date.getFullYear() + '-' + 
-    fillZero((date.getMonth()+1)) + '-' +
-    fillZero(date.getDate()) + ' ' +
-    fillZero(date.getHours()) + ':' +
-    fillZero(date.getMinutes())
-}
-
-const server = net.createServer((socket) => {
-    socket.end(getDate() + '\n');
-})
-
-server.listen(process.argv[2]);
-
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'content-type': 'text/plain' });
+    fs.createReadStream(process.argv[3]).pipe(res);
+}).listen(process.argv[2]);
 
 
 
