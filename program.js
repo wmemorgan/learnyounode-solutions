@@ -1,6 +1,5 @@
 //Exercise 9: Juggling Async
-//callback from hell method
-//Solution #1
+//callback from hell method (Solution #1)
 
 const http = require('http');
 let url1 = process.argv[2],
