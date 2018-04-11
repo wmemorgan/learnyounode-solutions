@@ -1,30 +1,23 @@
 //Exercise 10: Time Server
-//My Solution #1
+//My Solution #2 (adapted from Official Solution)
 
 const net = require('net');
 
+const fillZero = (num) => { return (num < 10 ? '0' : '') + num }
+
 const getDate = () => {
-    let date = new Date(),
-    year = date.getFullYear(),
-    month = date.getMonth()+1,
-    day = date.getDate(),
-    hours = date.getHours(),
-    minutes = date.getMinutes(),
-    currentDate = [year, month, day],
-    currentTime = [hours, minutes];
-    
-    for (i = 1; i < currentDate.length; i++) {
-        currentDate[i] = ('00' + currentDate[i]).slice(-2);
-        currentTime[i-1] = ('00' + currentTime[i-1]).slice(-2);
-    }
-    
-    let data = currentDate.join('-') + ' ' + currentTime.join(':') + '\n';
-    // console.log(data);
-    return data;
+    let date = new Date();
+    console.log((date.getMonth()+1));
+
+    return date.getFullYear() + '-' + 
+    fillZero((date.getMonth()+1)) + '-' +
+    fillZero(date.getDate()) + ' ' +
+    fillZero(date.getHours()) + ':' +
+    fillZero(date.getMinutes())
 }
 
 const server = net.createServer((socket) => {
-    socket.end(getDate());
+    socket.end(getDate() + '\n');
 })
 
 server.listen(process.argv[2]);
