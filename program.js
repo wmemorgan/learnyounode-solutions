@@ -14,7 +14,8 @@ const server = http.createServer((req, res) => {
     });
     
     req.on('end', () => {
-        console.log(body);
+        
+        res.end(console.log(body.toUpperCase()));
     })
 }).listen(process.argv[2]);
 
