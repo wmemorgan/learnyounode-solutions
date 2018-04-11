@@ -3,34 +3,35 @@
 
 const http = require('http');
 const BufferList = require('bl');
-let bl = new BufferList();
+const bl = new BufferList();
 let url1 = process.argv[2],
 url2 = process.argv[3],
 url3 = process.argv[4],
-completeData='',
+completeData = [],
 data1 = '',
 data2 = '',
 data3 = ''
 
-console.log(completeData);
-// const getData = (url, results) => {
-//     http.get(url, (res) => {
-//         res.setEncoding('utf8');
-//         res.on('data', (data) => { 
-//             console.log(data);
-//             results += data;
-//             console.log(results);
-//         });
-//         res.on('end', () => { console.log(results) });
-//     }).on('error', (err) => { console.error("Got error: " + err) }) ;
-// }
+const getData = (url, results) => {
+    var results = [];
+    http.get(url, (res) => {
+        res.setEncoding('utf8');
+        res.on('data', (data) => {
+            // res.on('data', (data) => { results.append(bl.append(data)) });
+            // console.log(data);
+            results = (bl.append(data));
+            // console.log(results);
+        });
+        res.on('end', () => { console.log(results.toString()) });
+    }).on('error', (err) => { console.error("Got error: " + err) }) ;
+}
 
-// for (let i = 0; i < 1; i++) {
-//     // console.log(process.argv[2+i]);
-//     // console.log(completeData.push(i));
-//     // console.log(completeData);
-//     getData(process.argv[2+i], completeData[i]);
-// }
+for (let i = 0; i < 3; i++) {
+    // console.log(process.argv[2+i]);
+    // console.log(completeData.push(i));
+    // console.log(completeData);
+    getData(process.argv[2+i], completeData[i]);
+}
 
 // //Retrieve data from first URL
 // http.get(url1, (res) => {
@@ -62,4 +63,18 @@ console.log(completeData);
 //     });
 // }).on('error', (e) => { console.log("Got error: " + e.message) });
 
+
+// const http = require('http'),
+//  BufferList = require('bl'), //third-party package
+//  bl = new BufferList();
+// let url = process.argv[2];
+
+// http.get(url, (res) => {
+//     res.setEncoding('utf8');
+//     res.on('data', (data) => { bl.append(data) });
+//     res.on('end', () => {
+//         console.log(bl.length);
+//         console.log(bl.toString());
+//     });
+// }).on('error', (e) => { console.log("Got error: " + e.message) });
 
