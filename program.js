@@ -1,12 +1,21 @@
-//Exercise 11: HTTP File Server
-//based on tutorial from Daniel Paul Grech Pereira
+//Exercise 12: HTTP UPPERCASER
 
 const http = require('http'),
+ map = require('through2-map'),
  fs = require('fs');
 
 const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'content-type': 'text/plain' });
-    fs.createReadStream(process.argv[3]).pipe(res);
+    if (req.method === 'POST') {
+        var body = '';
+    }
+    
+    req.on('data', (data) => {
+        body += data;
+    });
+    
+    req.on('end', () => {
+        console.log(body);
+    })
 }).listen(process.argv[2]);
 
 
