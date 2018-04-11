@@ -1,38 +1,34 @@
-//Exercise 9: Juggling Async
-//Official Solution (Refactored to ES6 format)
+//Exercise 10: Time Server
+//My Solution #1
 
-const http = require('http'),
-    bl = require('bl');
+const net = require('net');
 
-let count = 0,
-completeData = [];
-
-const printResults = () => {
-    for (let i = 0; i < count; i++) {
-        console.log(completeData[i]);
+const getDate = () => {
+    let date = new Date(),
+    year = date.getFullYear(),
+    month = date.getMonth()+1,
+    day = date.getDate(),
+    hours = date.getHours(),
+    minutes = date.getMinutes(),
+    currentDate = [year, month, day],
+    currentTime = [hours, minutes];
+    
+    for (i = 1; i < currentDate.length; i++) {
+        currentDate[i] = ('00' + currentDate[i]).slice(-2);
+        currentTime[i-1] = ('00' + currentTime[i-1]).slice(-2);
     }
+    
+    let data = currentDate.join('-') + ' ' + currentTime.join(':') + '\n';
+    // console.log(data);
+    return data;
 }
 
-const getData = (index) => {
-    http.get(process.argv[2+index], (res) => {
-        res.pipe(bl((err, data) => {
-            if (err) {
-                return console.error(err);
-            }
-            completeData[index] = data.toString();
-            count++;
-            
-            if (count === 3){
-                printResults();
-            }
-            
-        }))
-    });
-}
+const server = net.createServer((socket) => {
+    socket.end(getDate());
+})
+
+server.listen(process.argv[2]);
 
 
-for (let i = 0; i < 3; i++) {
-    getData(i);
-}
 
 
